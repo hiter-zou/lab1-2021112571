@@ -1,1 +1,2 @@
 Seek to explore new and exciting synergies
+在B1分支上对同样的2个文件做不同修改并提交；2
