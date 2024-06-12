@@ -94,22 +94,48 @@ def calcShortestPath(G, word1, word2):
     return result
 
 
+# def randomWalk(G, text_widget, stop_event):
+#     is_stop = False
+#     start = random.choice(list(G.nodes))
+#     sentence = [start]
+#     text_widget.insert(tk.END, start + " ")
+#     while not is_stop:
+#         if not list(G[start]):
+#             text_widget.insert(tk.END, "\n\nNext not found. Random walk stopped.\n\n\n\n\n")
+#             break
+#         next = random.choice(list(G[start]))
+#         if next in sentence:
+#             text_widget.insert(tk.END, "\n\nLoop detected. Random walk stopped.\n\n\n\n\n")
+#             break
+#         sentence.append(next)
+#         text_widget.insert(tk.END, next + " ")
+#         start = next
+#         # 检查停止事件
+#         time.sleep(1)
+#         if stop_event.is_set():
+#             text_widget.insert(tk.END, "\n\nStop.\n\n\n\n\n")
+#             is_stop = True
+
 def randomWalk(G, text_widget, stop_event):
     is_stop = False
     start = random.choice(list(G.nodes))
     sentence = [start]
+    visited_edges = set()
     text_widget.insert(tk.END, start + " ")
     while not is_stop:
-        if not list(G[start]):
+        neighbors = list(G[start])
+        if not neighbors:
             text_widget.insert(tk.END, "\n\nNext not found. Random walk stopped.\n\n\n\n\n")
             break
-        next = random.choice(list(G[start]))
-        if next in sentence:
+        next_node = random.choice(neighbors)
+        edge = (start, next_node)
+        if edge in visited_edges:
             text_widget.insert(tk.END, "\n\nLoop detected. Random walk stopped.\n\n\n\n\n")
             break
-        sentence.append(next)
-        text_widget.insert(tk.END, next + " ")
-        start = next
+        visited_edges.add(edge)
+        sentence.append(next_node)
+        text_widget.insert(tk.END, next_node + " ")
+        start = next_node
         # 检查停止事件
         time.sleep(1)
         if stop_event.is_set():
